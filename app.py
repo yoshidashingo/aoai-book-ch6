@@ -18,6 +18,11 @@ import openai
 load_dotenv()
 app = Flask(__name__)
 
+openai.api_type = os.getenv('OPENAI_API_TYPE')
+openai.api_key = os.getenv('AZURE_OPENAI_KEY')
+openai.api_base = os.getenv('AZURE_OPENAI_ENDPOINT')
+openai.api_version = "2023-05-15"
+
 @app.route('/')
 def index():
     return render_template('index.html')
