@@ -25,7 +25,7 @@ function sendPrompt(prompt) {
 }
 
 function reset() {
-  keyword.placeholder = "何でも聞いてください...";
+  keyword.placeholder = "Ask me anything...";
   keyword.disabled = false;
   keyword.focus();
 }

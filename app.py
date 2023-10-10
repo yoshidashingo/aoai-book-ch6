@@ -19,11 +19,6 @@ import openai
 load_dotenv()
 app = Flask(__name__)
 
-openai.api_type = os.getenv('OPENAI_API_TYPE')
-openai.api_key = os.getenv('AZURE_OPENAI_KEY')
-openai.api_base = os.getenv('AZURE_OPENAI_ENDPOINT')
-openai.api_version = "2023-05-15"
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -40,24 +35,16 @@ def chat():
             def on_llm_end(self, response, **kwargs):
                 queue_obj.put('[DONE]')
 
-        # chat = ChatOpenAI(model=os.getenv('OPENAI_API_MODEL'), 
-        #                 streaming=True,
-        #                 temperature=os.getenv('OPENAI_TEMPERATURE'), 
-        #                 callbacks=[StreamCallbackHandler()], 
-        #                 model_kwargs={"deployment_id":os.getenv('AZURE_DEPLOYMENT_ID')}
-        #                 )
-
         chat = AzureChatOpenAI(
             deployment_name=os.getenv('AZURE_DEPLOYMENT_ID'),
-            openai_api_type=openai.api_type,
-            openai_api_base=openai.api_base,
-            openai_api_version=openai.api_version,
-            openai_api_key=openai.api_key,
-            streaming=True,
+            openai_api_type=os.getenv('OPENAI_API_TYPE'),
+            openai_api_base=os.getenv('AZURE_OPENAI_ENDPOINT'),
+            openai_api_version=os.getenv('AZURE_OPENAI_VERSION'),
+            openai_api_key=os.getenv('AZURE_OPENAI_KEY'),
             temperature=os.getenv('OPENAI_TEMPERATURE'),
+            streaming=True,
             callbacks=[StreamCallbackHandler()]
         )
-
 
         messages = [
             SystemMessage(content="")
