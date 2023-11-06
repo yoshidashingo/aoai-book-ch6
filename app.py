@@ -1,7 +1,5 @@
 from flask import Flask, render_template, request, jsonify
 from dotenv import load_dotenv
-# from langchain.llms import OpenAI
-# from langchain.chat_models import ChatOpenAI
 from langchain.chat_models import AzureChatOpenAI
 from langchain.callbacks.base import BaseCallbackHandler
 from langchain.schema import (
@@ -13,8 +11,6 @@ from queue import Queue
 import flask
 import os
 import threading
-# import json
-# import openai
 
 load_dotenv()
 app = Flask(__name__)
