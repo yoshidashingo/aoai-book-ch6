@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from dotenv import load_dotenv
+# from langchain.llms import OpenAI
+# from langchain.chat_models import ChatOpenAI
 from langchain.chat_models import AzureChatOpenAI
 from langchain.callbacks.base import BaseCallbackHandler
 from langchain.schema import (
@@ -11,6 +13,8 @@ from queue import Queue
 import flask
 import os
 import threading
+# import json
+import openai
 
 load_dotenv()
 app = Flask(__name__)
@@ -31,9 +35,27 @@ def chat():
             def on_llm_end(self, response, **kwargs):
                 queue_obj.put('[DONE]')
 
-        chat = AzureChatOpenAI(
+        # chat = AzureChatOpenAI(
+        #     deployment_name = os.getenv('AZURE_DEPLOYMENT_ID'),
+        #     openai_api_type = os.getenv('OPENAI_API_TYPE'),
+        #     openai_api_base = os.getenv('AZURE_OPENAI_ENDPOINT'),
+        #     openai_api_version = os.getenv('AZURE_OPENAI_VERSION'),
+        #     openai_api_key = os.getenv('AZURE_OPENAI_KEY'),
+        #     temperature = os.getenv('OPENAI_TEMPERATURE'),
+        #     streaming = True,
+        #     callbacks = [StreamCallbackHandler()]
+        # )
+
+        openai.api_type = os.getenv('OPENAI_API_TYPE')
+        openai.api_version = os.getenv('AZURE_OPENAI_VERSION')
+        openai.api_base = os.getenv('AZURE_OPENAI_ENDPOINT')  # Your Azure OpenAI resource's endpoint value.
+        openai.api_key = os.getenv('AZURE_OPENAI_KEY')
+
+        chat = openai.ChatCompletion.create(
+            engine = os.getenv('OPENAI_API_MODEL'),
+            
             deployment_name = os.getenv('AZURE_DEPLOYMENT_ID'),
-            openai_api_type = os.getenv('OPENAI_API_TYPE'),
+            # openai_api_type = os.getenv('OPENAI_API_TYPE'),
             openai_api_base = os.getenv('AZURE_OPENAI_ENDPOINT'),
             openai_api_version = os.getenv('AZURE_OPENAI_VERSION'),
             openai_api_key = os.getenv('AZURE_OPENAI_KEY'),
@@ -41,6 +63,7 @@ def chat():
             streaming = True,
             callbacks = [StreamCallbackHandler()]
         )
+
 
         messages = [
             SystemMessage(content="")
