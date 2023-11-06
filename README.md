@@ -7,10 +7,10 @@
 
 ## Usage
 1. Copy `.env.template` to `.env`.
-1. Fill out `.env` with AOAI API Key, Endpoint URL, Model name, Deployment ID, etc...
+1. Fill out `.env` with AOAI API Key, Endpoint URL, Deployment ID, etc...
 1. Install library and run.:zap:
 
 ```
 $ pip install -r requirements.txt
-$ flask run --debug
+$ python app.py
 ```
