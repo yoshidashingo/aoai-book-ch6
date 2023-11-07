@@ -43,7 +43,7 @@ function updateDOM(type, text) {
     } else if (type === 'ai' && text !== '[DONE]') {
         const card = g(CHAT_ID);
         if (card) {
-            card.innerText += text;
+            card.innerText += text.replaceAll('[NEWLINE]', '\n');
         } else {
             html = `<div class="card answer" id="${CHAT_ID}">${text}</div>`;
         }

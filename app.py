@@ -38,7 +38,7 @@ def chat():
                 yield 'data: %s\n\n' % '[DONE]'
             else:
                 delta = chunk.choices[0].delta.get('content') or ""
-                yield 'data: %s\n\n' % delta
+                yield 'data: %s\n\n' % delta.replace('\n', '[NEWLINE]')
     return flask.Response(stream(), mimetype='text/event-stream')
 
 
