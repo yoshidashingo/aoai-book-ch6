@@ -3,9 +3,6 @@ const keyword = g('keyword');
 const content = g('content');
 let CHAT_ID;
 let DONE = false;
-let INTERVAL_MS = 33;
-let interval;
-let queue = [];
 
 function g(id) {
     return document.getElementById(id);
@@ -35,33 +32,15 @@ function invokeAPI(prompt) {
         if (event.data === "[DONE]") {
             source.close();
         }
-        insertAnswer(event.data);
-    };
-    interval = setInterval(() => {
-        const text = queue.shift();
-        if (text) {
-            updateDOM('ai', text);
-        }
-        if (DONE === true && queue.length === 0) {
-            clearInterval(interval);
-            DONE = false;
-        }
-    }, INTERVAL_MS);
-}
-
-function insertAnswer(data) {
-    if (data === '[DONE]') {
-        DONE = true;
-    } else {
-        queue.push(data)
-    }
+        updateDOM('ai', event.data);
+      };
 }
 
 function updateDOM(type, text) {
     let html = '';
     if (type === 'user') {
         html = `<div class="card question">${text}</div>`;
-    } else if (type === 'ai') {
+    } else if (type === 'ai' && text !== '[DONE]') {
         const card = g(CHAT_ID);
         if (card) {
             card.innerText += text;
