@@ -2,7 +2,6 @@ const form = g('form');
 const keyword = g('keyword');
 const content = g('content');
 let CHAT_ID;
-let DONE = false;
 
 function g(id) {
     return document.getElementById(id);
@@ -27,7 +26,7 @@ function onSubmit(event) {
 }
 
 function invokeAPI(prompt) {
-    source = new EventSource(`/chat?prompt=${prompt}`);
+    const source = new EventSource(`/chat?prompt=${prompt}`);
     source.onmessage = function (event) {
         if (event.data === "[DONE]") {
             source.close();
