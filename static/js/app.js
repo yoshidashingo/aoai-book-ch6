@@ -33,8 +33,8 @@ function scorllToBottom() {
 function appendDisclaimer() {
     const dom = `
     <div class="disclaimer">
-        この回答は「sample.pdf」の内容を参照して作成しています。【←データの透明性】 <br/>
-        このアプリで生成される情報は不正確または不適切な場合がありますが、当社の見解を述べるものではありません。【←注意書き】
+        この回答は「sample.pdf」の内容を参照して作成しています。<br/>
+        このアプリで生成される情報は不正確または不適切な場合がありますが、当社の見解を述べるものではありません。
     </div>    
     `
     content.insertAdjacentHTML("beforeend", dom);
