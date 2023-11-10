@@ -22,12 +22,14 @@ def index():
 @app.route('/chat')
 def chat():
     prompt = request.args.get("prompt")
+    temperature = request.args.get("temperature")
     response = openai.ChatCompletion.create(
         deployment_id=deployment_id,
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": prompt},
         ],
+        temperature=float(temperature or os.getenv('OPENAI_TEMPERATURE')),
         stream=True
     )
 
