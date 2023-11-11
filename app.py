@@ -1,9 +1,6 @@
-from flask import Flask, render_template, request, jsonify
-
-import os
+import os, flask
 from openai import AzureOpenAI
-import flask
-
+from flask import Flask, render_template, request
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -23,7 +20,7 @@ def index():
 def chat():
     prompt = request.args.get("prompt")
     response = client.chat.completions.create(
-        model=os.getenv("AZURE_DEPLOYMENT_ID"), # model = "deployment_name".
+        model=os.getenv("AZURE_DEPLOYMENT_ID"),
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": prompt},
@@ -40,7 +37,6 @@ def chat():
                 delta = chunk.choices[0].delta.content or ""
                 yield 'data: %s\n\n' % delta.replace('\n', '[NEWLINE]')
     return flask.Response(stream(), mimetype='text/event-stream')
-
 
 if __name__ == "__main__":
     app.run()
