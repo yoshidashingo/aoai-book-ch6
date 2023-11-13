@@ -19,12 +19,14 @@ def index():
 @app.route('/chat')
 def chat():
     prompt = request.args.get("prompt")
+    temperature = request.args.get("temperature")
     response = client.chat.completions.create(
         model=os.getenv("AZURE_DEPLOYMENT_ID"),
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": prompt},
         ],
+        temperature=float(temperature or os.getenv('OPENAI_TEMPERATURE')),
         stream=True
     )
 
