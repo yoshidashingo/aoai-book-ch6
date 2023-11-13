@@ -12,5 +12,5 @@
 
 ```
 $ pip install -r requirements.txt
-$ python app.py
+$ flask run --debug
 ```

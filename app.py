@@ -21,6 +21,7 @@ def index():
 def chat():
     prompt = request.args.get("prompt")
     messages.append({"role": "user", "content": prompt})
+
     response = client.chat.completions.create(
         model=os.getenv("AZURE_DEPLOYMENT_ID"),
         messages=messages,
