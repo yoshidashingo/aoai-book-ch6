@@ -165,4 +165,5 @@ submit.addEventListener('click', e => {
 stop.addEventListener('click', e => {
     source.close();
     reset();
+    pending.remove();
 });
